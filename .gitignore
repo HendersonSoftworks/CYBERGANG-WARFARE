@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Weird large files
+*lld
+*libburst-llvm-12.dylib
