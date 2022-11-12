@@ -9,17 +9,21 @@ public class GameManager : MonoBehaviour
     public enum Modes { first_person, third_person}
     public Modes currentMode;
 
+    public bool isDead = false;
+
     public GameObject[] playerObjs;
+
+    public GameObject[] patrolPoints;
 
     private void Awake()
     {
-        playerObjs[1].SetActive(false);
+        //playerObjs[1].SetActive(false);
     }
 
     private void Start()
     {
         // Set the mode to first person on startup
-        currentMode = Modes.first_person;
+        //currentMode = Modes.first_person;
     }
 
     private void Update()
