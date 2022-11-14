@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 2601603836259646757}
   - component: {fileID: 2601603836259646762}
   - component: {fileID: 2601603836259646763}
+  - component: {fileID: 481557540}
+  - component: {fileID: 481557541}
   m_Layer: 0
   m_Name: enemy_test
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,8 +46,8 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 3
-  m_Speed: 20
-  m_Acceleration: 500
+  m_Speed: 5
+  m_Acceleration: 1000
   avoidancePriority: 50
   m_AngularSpeed: 500
   m_StoppingDistance: 0
@@ -73,6 +75,43 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   currentPatrolPoint: {fileID: 0}
   navMeshAgent: {fileID: 2601603836259646762}
+  playerController: {fileID: 0}
+  chaseDist: 18.4
+  chaseSpeed: 15
+  patrolSpeed: 5
+  isPlayerDetected: 0
+  currentState: 0
+--- !u!136 &481557540
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601603836259646760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.26
+  m_Height: 5.96
+  m_Direction: 1
+  m_Center: {x: 0, y: 3.08, z: 0}
+--- !u!114 &481557541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2601603836259646760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07cf78afef9d5f94fbaf0afa18c880a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalTroops: 0
+  punks: 3
+  mercs: 0
+  hackers: 0
+  cyborgs: 0
 --- !u!1001 &2601603835827239829
 PrefabInstance:
   m_ObjectHideFlags: 0

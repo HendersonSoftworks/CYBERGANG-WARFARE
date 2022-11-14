@@ -5,19 +5,18 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] float timerDuration;
     [SerializeField] private float timer;
-
     [SerializeField] GameManager gameManager;
-
     [SerializeField] GameObject currentPatrolPoint;
     [SerializeField] NavMeshAgent navMeshAgent;
-
-    public enum movementState { patrolling, chasing, fleeing};
-    public movementState currentState = movementState.patrolling;
-
     [SerializeField] PlayerController playerController;
 
     [SerializeField] float chaseDist;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float patrolSpeed;
     [SerializeField] bool isPlayerDetected;
+
+    public enum MovementState { patrolling, chasing, fleeing };
+    public MovementState currentState = MovementState.patrolling;
 
     private void Start()
     {
@@ -35,22 +34,15 @@ public class EnemyController : MonoBehaviour
 
         switch (currentState)
         {
-            case movementState.patrolling:
-                // set patrol point
+            case MovementState.patrolling:
                 ManagePatrolState();
-                // move char to patrol point
-                if (currentPatrolPoint != null) { MoveCharToCurrentPatrolPoint(currentPatrolPoint.transform.position); }
-                // check if player is detected
-                isPlayerDetected = PlayerIsDetected(playerController);
-                if (isPlayerDetected == true) { currentState = movementState.chasing; }
+
                 break;
-            case movementState.chasing:
-                isPlayerDetected = PlayerIsDetected(playerController);
-                // chase player if detected, otherwise go back to patrolling
-                if (isPlayerDetected) { navMeshAgent.SetDestination(playerController.transform.position); navMeshAgent.speed = 19; }
-                else { currentState = movementState.patrolling; }
+            case MovementState.chasing:
+                ManageChaseState();
+
                 break;
-            case movementState.fleeing:
+            case MovementState.fleeing:
                 // Maybe implement fleeing? Undecided. Currently enemies are stupid.
                 break;
             default:
@@ -61,12 +53,39 @@ public class EnemyController : MonoBehaviour
 
     private void ManagePatrolState()
     {
+        navMeshAgent.speed = patrolSpeed;
+
         timer -= Time.deltaTime;
         if (timer <= 0)
         {
             timer = timerDuration;
             // change to random patrol point
             currentPatrolPoint = ChangePatrolPoint(gameManager.patrolPoints);
+        }
+
+        // move char to patrol point
+        if (currentPatrolPoint != null) { MoveCharToCurrentPatrolPoint(currentPatrolPoint.transform.position); }
+        
+        // check if player is detected
+        isPlayerDetected = PlayerIsDetected(playerController);
+        if (isPlayerDetected == true) 
+        { 
+            currentState = MovementState.chasing; 
+        }
+    }
+
+    private void ManageChaseState()
+    {
+        isPlayerDetected = PlayerIsDetected(playerController);
+        // chase player if detected, otherwise go back to patrolling
+        if (isPlayerDetected) 
+        { 
+            navMeshAgent.SetDestination(playerController.transform.position); 
+            navMeshAgent.speed = chaseSpeed; 
+        }
+        else 
+        { 
+            currentState = MovementState.patrolling; 
         }
     }
 

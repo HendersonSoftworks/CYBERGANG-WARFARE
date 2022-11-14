@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        ManagePerspective();
+    }
+
+    private void ManagePerspective()
+    {
         if (currentMode == Modes.first_person)
         {
             playerObjs[0].SetActive(true);
@@ -54,5 +59,11 @@ public class GameManager : MonoBehaviour
         {
             mode = Modes.first_person;
         }
+    }
+
+    public void PauseGame()
+    {
+        // Pause the game
+        Time.timeScale = 0;
     }
 }

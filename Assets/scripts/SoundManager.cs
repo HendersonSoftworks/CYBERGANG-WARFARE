@@ -18,12 +18,21 @@ public class SoundManager : MonoBehaviour
             }
 
             audioSource.clip = audioClips[0];
-            audioSource.UnPause();
-            //audioSource.Play();
+            ResumeSound();
         }
         else
         {
-            audioSource.Pause();
+            PauseSound();
         }
+    }
+
+    public void PauseSound()
+    {
+        audioSource.Pause();
+    }
+
+    public void ResumeSound()
+    {
+        audioSource.UnPause();
     }
 }

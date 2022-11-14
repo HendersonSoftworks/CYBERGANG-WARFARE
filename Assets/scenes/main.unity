@@ -2530,7 +2530,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2601603836259646760, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
   m_PrefabInstance: {fileID: 2601603835777968477}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &481557536
+--- !u!136 &481557540
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481557532}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.26
+  m_Height: 5.96
+  m_Direction: 1
+  m_Center: {x: 0, y: 3.08, z: 0}
+--- !u!114 &481557541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2539,15 +2553,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 481557532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5454a830757c7b458fbe50f3cb3c801, type: 3}
+  m_Script: {fileID: 11500000, guid: 07cf78afef9d5f94fbaf0afa18c880a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   totalTroops: 0
-  punks: 0
+  punks: 1
   mercs: 0
   hackers: 0
   cyborgs: 0
-  troopList: []
 --- !u!1001 &481872631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7495,7 +7508,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1320322224}
-  - component: {fileID: 1320322232}
   - component: {fileID: 1320322227}
   - component: {fileID: 1320322228}
   - component: {fileID: 1320322229}
@@ -7503,6 +7515,7 @@ GameObject:
   - component: {fileID: 1320322230}
   - component: {fileID: 1320322226}
   - component: {fileID: 1320322225}
+  - component: {fileID: 1320322232}
   m_Layer: 0
   m_Name: player_3rd_person
   m_TagString: Untagged
@@ -7550,9 +7563,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320322223}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.35
+  m_Radius: 3.33
   m_Height: 7.79
   m_Direction: 1
   m_Center: {x: 0, y: 2.58, z: 0}
@@ -7733,15 +7746,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1320322223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5454a830757c7b458fbe50f3cb3c801, type: 3}
+  m_Script: {fileID: 11500000, guid: fa5087fac5270fc4a99609f6d3df4d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   totalTroops: 0
-  punks: 5
-  mercs: 5
+  punks: 2
+  mercs: 0
   hackers: 0
   cyborgs: 0
-  troopList: []
 --- !u!1001 &1325207690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12678,7 +12690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646757, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -60.4
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646757, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12686,7 +12698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646757, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 64
+      value: 64.2
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646757, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12720,9 +12732,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: enemy_test
       objectReference: {fileID: 0}
+    - target: {fileID: 2601603836259646760, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
+      propertyPath: m_TagString
+      value: enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646762, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_Speed
-      value: 10
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601603836259646762, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
+      propertyPath: m_Radius
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646762, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: m_Acceleration
@@ -12730,12 +12750,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646763, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: chaseDist
-      value: 35
+      value: 18.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601603836259646763, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
+      propertyPath: chaseSpeed
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2601603836259646763, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1265142226}
+    - target: {fileID: 2601603836259646763, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
+      propertyPath: patrolSpeed
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
 --- !u!1001 &2844762667196249589

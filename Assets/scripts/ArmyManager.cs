@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for PlayerArmy and EnemyArmy.
+/// </summary>
 public class ArmyManager : MonoBehaviour
 {
     public int totalTroops;
@@ -10,55 +13,42 @@ public class ArmyManager : MonoBehaviour
     public int hackers;
     public int cyborgs;
 
-    public List<troop> troopList;
-
-    public class troop : ScriptableObject
-    {
-        public enum troopTypes { punk, merc, hacker, cyborg}
-        public troopTypes troopType;
-
-        public troop(troopTypes troop)
-        {
-            troopType = troop;
-        }
-    }
-
-    private void Start()
-    {
-        Debug.LogError("REWRITE THIS SYSTEM AS IT IS TRASH!");
-
-        // Convert punk counts to troops
-        for (int i = 0; i < punks; i++)
-        {
-            troop punk = new troop(troop.troopTypes.punk);
-            troopList.Add(punk);
-            Debug.Log("Added troop of type: " + punk.troopType);
-        }
-        // Convert merc counts to troops
-        for (int i = 0; i < mercs; i++)
-        {
-            troop merc = new troop(troop.troopTypes.merc);
-            troopList.Add(merc);
-            Debug.Log("Added troop of type: " + merc.troopType);
-        }
-
-        // Randomise positions in Troop List
-        StaticUtils.Shuffle(troopList);
-
-        // This seems to corrupt the data...? 
-        for (int i = 0; i < troopList.Count; i++)
-        {
-            Debug.Log(troopList[i].troopType + i);
-        }
-    }
-
-    void Update()
+    /// <summary>
+    /// Ensures that troop counts do not go below 0.
+    /// </summary>
+    public void EnsureCorrectTroopNumbers()
     {
         totalTroops = (punks + mercs + hackers + cyborgs);
 
-        if (punks <= 0){ punks = 0; }
+        if (punks <= 0) { punks = 0; }
         if (mercs <= 0) { mercs = 0; }
         if (hackers <= 0) { hackers = 0; }
         if (cyborgs <= 0) { cyborgs = 0; }
+    }
+
+    /// <summary>
+    /// Sets troop counts to 0.
+    /// </summary>
+    public void DestroyArmy()
+    {
+        punks = 0;
+        mercs = 0;
+        hackers = 0;
+        cyborgs = 0;
+    }
+
+    protected virtual void EnterBattleMode(GameObject enemyObject)
+    {
+        Debug.Log(gameObject.name + " has entered a battle with " + enemyObject.name);
+
+        // Destroy losing party
+        if (enemyObject.GetComponent<EnemyArmy>().totalTroops > totalTroops)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Destroy(enemyObject);
+        }
     }
 }
