@@ -51,4 +51,25 @@ public class ArmyManager : MonoBehaviour
             Destroy(enemyObject);
         }
     }
+
+    // Add or remove unit functions
+    public void AddPunk(int num)
+    {
+        punks += num;
+    }
+
+    public void AddMerc(int num)
+    {
+        mercs += num;
+    }
+
+    public void AddHacker(int num)
+    {
+        hackers += num;
+    }
+
+    public void AddCyborg(int num)
+    {
+        cyborgs += num;
+    }
 }

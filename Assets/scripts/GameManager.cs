@@ -1,9 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject battlePanel;
+    [SerializeField] private GameObject victoryPanel;
+
+    [SerializeField] private Text playerPunkCount;
+    [SerializeField] private Text playerMercCount;
+    [SerializeField] private Text playerHackerCount;
+    [SerializeField] private Text playerCyborgCount;
+
+    [SerializeField] private Text enemyPunkCount;
+    [SerializeField] private Text enemyMercCount;
+    [SerializeField] private Text enemyHackerCount;
+    [SerializeField] private Text enemyCyborgCount;
+
     public float bounds;
     
     public enum Modes { first_person, third_person}

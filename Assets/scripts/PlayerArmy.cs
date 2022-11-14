@@ -39,6 +39,7 @@ public class PlayerArmy : ArmyManager
 
         // Logic to open up Battle UI and simulate battle
         
+
         base.EnterBattleMode(enemyObject);
     }
 }
