@@ -2525,6 +2525,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c11642c2a118dc744a57e111327f2030, type: 3}
+--- !u!1 &481557532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2601603836259646760, guid: b83a395775ae56d4b9cae91455934b75, type: 3}
+  m_PrefabInstance: {fileID: 2601603835777968477}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &481557536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481557532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5454a830757c7b458fbe50f3cb3c801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalTroops: 0
+  punks: 0
+  mercs: 0
+  hackers: 0
+  cyborgs: 0
+  troopList: []
 --- !u!1001 &481872631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7472,6 +7495,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1320322224}
+  - component: {fileID: 1320322232}
   - component: {fileID: 1320322227}
   - component: {fileID: 1320322228}
   - component: {fileID: 1320322229}
@@ -7700,6 +7724,24 @@ MonoBehaviour:
   audioSource: {fileID: 1320322230}
   audioClips:
   - {fileID: 8300000, guid: 41099334e2254d346adb2fd6b9a6f5ee, type: 3}
+--- !u!114 &1320322232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320322223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5454a830757c7b458fbe50f3cb3c801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalTroops: 0
+  punks: 5
+  mercs: 5
+  hackers: 0
+  cyborgs: 0
+  troopList: []
 --- !u!1001 &1325207690
 PrefabInstance:
   m_ObjectHideFlags: 0
