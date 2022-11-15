@@ -37,9 +37,15 @@ public class PlayerArmy : ArmyManager
         // Pause the game
         gameManager.PauseGame();
 
-        // Logic to open up Battle UI and simulate battle
-        
+        // Send Enemy to GameManager
+        gameManager.enemyArmy = enemyObject.GetComponent<EnemyArmy>();
 
-        base.EnterBattleMode(enemyObject);
+        // Set Initial Stats
+        gameManager.SetBattleUIStats();
+
+        // Logic to open up Battle UI and simulate battle
+        gameManager.isBattling = true;
+
+        //base.EnterBattleMode(enemyObject);
     }
 }

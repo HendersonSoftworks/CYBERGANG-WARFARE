@@ -41,7 +41,7 @@ public class ArmyManager : MonoBehaviour
     {
         Debug.Log(gameObject.name + " has entered a battle with " + enemyObject.name);
 
-        // Destroy losing party
+        // Destroy losing party, just for testing, will handle this in game manager
         if (enemyObject.GetComponent<EnemyArmy>().totalTroops > totalTroops)
         {
             Destroy(gameObject);
