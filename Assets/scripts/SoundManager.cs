@@ -8,9 +8,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip[] audioClips;
 
+    [SerializeField] FirstPersonMovementController firstPerson;
+
     private void Update()
     {
-        if (agent.hasPath)
+        if ((agent.hasPath & agent != null) || (firstPerson.x != 0 || firstPerson.z != 0))
         {
             if (!audioSource.isPlaying)
             {

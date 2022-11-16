@@ -8,10 +8,13 @@ public class FirstPersonMovementController : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] CharacterController controller;
 
+    public float x;
+    public float z;
+
     private void Update()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        x = Input.GetAxis("Horizontal");
+        z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
         controller.Move(move * speed * Time.deltaTime);    
     }

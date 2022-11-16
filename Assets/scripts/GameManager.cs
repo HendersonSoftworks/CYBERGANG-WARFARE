@@ -3,10 +3,6 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public PlayerArmy playerArmy;
-    public EnemyArmy enemyArmy;
-
-
     [SerializeField] private GameObject battlePanel;
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private Text victoryText;
@@ -20,6 +16,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text enemyMercCount;
     [SerializeField] private Text enemyHackerCount;
     [SerializeField] private Text enemyCyborgCount;
+
+    [SerializeField] private bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
+    [SerializeField] private bool playerHasNumbersAdvantage = false; // determines whether player has numbers advantage
+
+    public PlayerArmy playerArmy;
+    public EnemyArmy enemyArmy;
 
     public float bounds;
     
@@ -49,7 +51,6 @@ public class GameManager : MonoBehaviour
         if (isBattling)
         {
             battlePanel.SetActive(true);
-
         }
         else
         {
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 victoryPanel.SetActive(false);
+                UnPauseGame();
             }
         }
 
@@ -103,6 +105,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1;
+    }
+
     public void SetBattleUIStats()
     {
         // Set Player counts
@@ -125,10 +132,10 @@ public class GameManager : MonoBehaviour
 
         /* How should calculation work?
          * 
-         * punks == 2 strength, must attack punks and mercs if present
-         * Mercs == 4 strength, must attack punks and mercs if present
-         * Hackers == 4 strength, if hacker is in party, can kill cyborgs and other hackers
-         * Cyborgs == 8 strength, can kill everything
+         * punks == 2 strength
+         * Mercs == 4 strength
+         * Hackers == 4 strength, allows killing cyborgs
+         * Cyborgs == 8 strength, allows killing cyborgs
          * 
          * greater totalStrength == advatange on rolls
          * greater totalCount == advantage on rolls
@@ -136,17 +143,56 @@ public class GameManager : MonoBehaviour
 
         // Perform calc to determine losses
         // calc player advantages
-        bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
-        bool playerHasNumbersAdvantage = false; // determines whether player has numbers advantage
         int playerTotalStrength = playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8;
         int enemyTotalStrength = enemyArmy.punks * 2 + enemyArmy.mercs * 4 + enemyArmy.hackers * 4 + enemyArmy.cyborgs * 8;
         if (playerTotalStrength > enemyTotalStrength){ playerHasStrengthAdvantage = true; }
         if (playerArmy.totalTroops > enemyArmy.totalTroops) { playerHasNumbersAdvantage = true; }
 
-        // Enemy losses
+        // Calculate losses
+        CalculateBattleLosses();
+
+        // Check if one party was victorious
+        if (playerArmy.totalTroops <= 0)
+        {
+            EndBattle();
+            victoryText.text = "A pathetic display!";
+            victoryPanel.SetActive(true);
+
+            // Teleport back to Town
+            playerArmy.punks = 1;
+            currentMode = Modes.first_person;
+            playerObjs[1].transform.position = new Vector3(0, 0, 40);
+
+        }
+        else if (enemyArmy.totalTroops <= 0)
+        {
+            EndBattle();
+            victoryText.text = "You are Victorious!!";
+            victoryPanel.SetActive(true);
+        }
+
+        // Reflect losses UI
+        playerArmy.EnsureCorrectTroopNumbers();
+        enemyArmy.EnsureCorrectTroopNumbers();
+        SetBattleUIStats();
+    }
+
+    public void EndBattle()
+    {
+        Debug.Log("Battle over");
+        isBattling = false;
+    }
+
+    public int GenerateRandomTroopLoss(int max)
+    {
+        return Random.Range(0, max + 1);
+    }
+
+    public void CalculateBattleLosses()
+    {
         if (playerHasStrengthAdvantage && playerHasNumbersAdvantage)
         {
-            enemyArmy.punks -= GenerateRandomTroopLoss(3); 
+            enemyArmy.punks -= GenerateRandomTroopLoss(3);
             enemyArmy.mercs -= GenerateRandomTroopLoss(3);
             enemyArmy.hackers -= GenerateRandomTroopLoss(3);
             if (playerArmy.hackers > 0 || playerArmy.cyborgs > 0)
@@ -161,7 +207,7 @@ public class GameManager : MonoBehaviour
             {
                 playerArmy.cyborgs -= GenerateRandomTroopLoss(1);
             }
-                
+
         }
         else if (playerHasStrengthAdvantage || playerHasNumbersAdvantage)
         {
@@ -199,35 +245,5 @@ public class GameManager : MonoBehaviour
                 playerArmy.cyborgs -= GenerateRandomTroopLoss(3);
             }
         }
-
-        // Reflect losses UI
-        playerArmy.EnsureCorrectTroopNumbers();
-        enemyArmy.EnsureCorrectTroopNumbers();
-        SetBattleUIStats();
-
-        // Check if one party was victorious
-        if (playerArmy.totalTroops <= 0)
-        {
-            EndBattle();
-            victoryText.text = "A pathetic display!";
-            victoryPanel.SetActive(true);
-        }
-        else if (enemyArmy.totalTroops <= 0)
-        {
-            EndBattle();
-            victoryText.text = "You are Victorious!!";
-            victoryPanel.SetActive(true);
-        }
-    }
-
-    public void EndBattle()
-    {
-        Debug.Log("Battle over");
-        isBattling = false;
-    }
-
-    public int GenerateRandomTroopLoss(int max)
-    {
-        return Random.Range(0, max + 1);
     }
 }
