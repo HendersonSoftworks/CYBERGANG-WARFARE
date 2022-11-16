@@ -175,10 +175,11 @@ public class GameManager : MonoBehaviour
             victoryText.text = "A pathetic display!";
             victoryPanel.SetActive(true);
 
-            // Teleport back to Town
+            // Partial game reset
             playerArmy.punks = 1;
+            playerArmy.credits = 100;
             currentMode = Modes.first_person;
-            playerObjs[1].transform.position = new Vector3(0, 0, 40);
+            ResetPlayerPositions();
 
         }
         else if (enemyArmy.totalTroops <= 0)
