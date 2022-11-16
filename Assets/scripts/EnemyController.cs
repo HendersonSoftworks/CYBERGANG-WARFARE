@@ -102,7 +102,7 @@ public class EnemyController : MonoBehaviour
     {
         float distFromPlayer;
         distFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-        if (distFromPlayer <= chaseDist)
+        if (distFromPlayer <= chaseDist && gameManager.currentMode == GameManager.Modes.third_person)
         {
             return true; // player detected
         }

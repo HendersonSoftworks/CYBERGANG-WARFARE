@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
         {
             battlePanel.SetActive(false);
             hudPanel.SetActive(true);
+
+            ManageEnemyOverlay();
         }
 
         if (victoryPanel.activeSelf)
@@ -83,6 +85,21 @@ public class GameManager : MonoBehaviour
         HackerHud.text = "hackers x " + playerArmy.hackers.ToString();
         CyborgHud.text = "cyborgs x " + playerArmy.cyborgs.ToString();
         creditsHud.text = "Credits: " + playerArmy.credits.ToString();
+    }
+
+    private void ManageEnemyOverlay()
+    {
+        // Get ray from mouse pos
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit; // this is set by Physics.Raycast()
+        if (Physics.Raycast(ray, out hit))
+        {
+            Debug.Log(hit.collider.tag);
+            if (hit.collider.tag == "enemy")
+            {
+                // show enemy info in bottom right?
+            }
+        }
     }
 
     private void ManagePerspective()
