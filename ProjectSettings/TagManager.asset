@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - enemy
+  - punk_vendor
+  - hacker_vendor
+  - merc_vendor
+  - cyborg_vendor
   layers:
   - Default
   - TransparentFX

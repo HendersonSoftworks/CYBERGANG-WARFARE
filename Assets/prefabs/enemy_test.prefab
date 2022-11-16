@@ -108,10 +108,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalTroops: 0
-  punks: 3
-  mercs: 0
-  hackers: 0
-  cyborgs: 0
+  punks: 10
+  mercs: 10
+  hackers: 10
+  cyborgs: 10
 --- !u!1001 &2601603835827239829
 PrefabInstance:
   m_ObjectHideFlags: 0

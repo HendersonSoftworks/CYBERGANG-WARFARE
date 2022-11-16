@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text enemyHackerCount;
     [SerializeField] private Text enemyCyborgCount;
 
+    [SerializeField] private Text PunkHud;
+    [SerializeField] private Text MercHud;
+    [SerializeField] private Text HackerHud;
+    [SerializeField] private Text CyborgHud;
+    [SerializeField] private Text creditsHud;
+
     [SerializeField] private bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
     [SerializeField] private bool playerHasNumbersAdvantage = false; // determines whether player has numbers advantage
 
@@ -37,13 +43,13 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        //playerObjs[1].SetActive(false);
+        playerObjs[1].SetActive(false);
     }
 
     private void Start()
     {
         // Set the mode to first person on startup
-        //currentMode = Modes.first_person;
+        currentMode = Modes.first_person;
     }
 
     private void Update()
@@ -51,6 +57,7 @@ public class GameManager : MonoBehaviour
         if (isBattling)
         {
             battlePanel.SetActive(true);
+            // hide hud panel
         }
         else
         {
@@ -67,6 +74,13 @@ public class GameManager : MonoBehaviour
         }
 
         ManagePerspective();
+
+        // Update HUD
+        PunkHud.text = "punks x " + playerArmy.punks.ToString();
+        MercHud.text = "mercs x " + playerArmy.mercs.ToString();
+        HackerHud.text = "hackers x " + playerArmy.hackers.ToString();
+        CyborgHud.text = "cyborgs x " + playerArmy.cyborgs.ToString();
+        creditsHud.text = "Credits: " + playerArmy.credits.ToString();
     }
 
     private void ManagePerspective()

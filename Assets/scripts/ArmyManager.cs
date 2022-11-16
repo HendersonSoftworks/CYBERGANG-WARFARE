@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class ArmyManager : MonoBehaviour
 {
+    public int credits;
+
     public int totalTroops;
     public int punks;
     public int mercs;

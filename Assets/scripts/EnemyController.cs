@@ -96,16 +96,18 @@ public class EnemyController : MonoBehaviour
 
     public bool PlayerIsDetected(PlayerController playerController)
     {
-        float distFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+        float distFromPlayer;
+        if (gameManager.currentMode != GameManager.Modes.first_person)
+        {
+            distFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
 
-        if (distFromPlayer <= chaseDist)
-        {
-            return true; // player detected
+            if (distFromPlayer <= chaseDist)
+            {
+                return true; // player detected
+            }
         }
-        else
-        {
-            return false; // not yet detected... 
-        }
+
+        return false;
     }
 
     private GameObject ChangePatrolPoint(GameObject[] patrolPoints)
