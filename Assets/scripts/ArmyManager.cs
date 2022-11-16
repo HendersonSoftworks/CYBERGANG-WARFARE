@@ -31,7 +31,7 @@ public class ArmyManager : MonoBehaviour
     /// <summary>
     /// Sets troop counts to 0.
     /// </summary>
-    public void DestroyArmy()
+    public virtual void DestroyArmy()
     {
         punks = 0;
         mercs = 0;
@@ -44,14 +44,14 @@ public class ArmyManager : MonoBehaviour
         Debug.Log(gameObject.name + " has entered a battle with " + enemyObject.name);
 
         // Destroy losing party, just for testing, will handle this in game manager
-        if (enemyObject.GetComponent<EnemyArmy>().totalTroops > totalTroops)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(enemyObject);
-        }
+        //if (enemyObject.GetComponent<EnemyArmy>().totalTroops > totalTroops)
+        //{
+        //    Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    Destroy(enemyObject);
+        //}
     }
 
     // Add or remove unit functions

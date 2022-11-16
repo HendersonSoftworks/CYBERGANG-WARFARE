@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject battlePanel;
     [SerializeField] private GameObject victoryPanel;
+    [SerializeField] private GameObject hudPanel;
     [SerializeField] private Text victoryText;
 
     [SerializeField] private Text playerPunkCount;
@@ -57,11 +58,12 @@ public class GameManager : MonoBehaviour
         if (isBattling)
         {
             battlePanel.SetActive(true);
-            // hide hud panel
+            hudPanel.SetActive(false);
         }
         else
         {
             battlePanel.SetActive(false);
+            hudPanel.SetActive(true);
         }
 
         if (victoryPanel.activeSelf)
@@ -169,6 +171,7 @@ public class GameManager : MonoBehaviour
         if (playerArmy.totalTroops <= 0)
         {
             EndBattle();
+            ResetPlayerPositions();
             victoryText.text = "A pathetic display!";
             victoryPanel.SetActive(true);
 
@@ -181,6 +184,7 @@ public class GameManager : MonoBehaviour
         else if (enemyArmy.totalTroops <= 0)
         {
             EndBattle();
+            enemyArmy.DestroyArmy();
             victoryText.text = "You are Victorious!!";
             victoryPanel.SetActive(true);
         }
@@ -259,5 +263,11 @@ public class GameManager : MonoBehaviour
                 playerArmy.cyborgs -= GenerateRandomTroopLoss(3);
             }
         }
+    }
+
+    public void ResetPlayerPositions()
+    {
+        playerObjs[0].transform.position = new Vector3(0, 0, 23.5f);
+        playerObjs[1].transform.position = new Vector3(0, 0, 40);
     }
 }

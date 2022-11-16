@@ -22,7 +22,9 @@ public class EnemyController : MonoBehaviour
     {
         timer = timerDuration;
 
-        playerController = FindObjectOfType<PlayerController>();
+        //playerController = FindObjectOfType<PlayerController>();
+        gameManager = FindObjectOfType<GameManager>();
+
     }
 
     private void Update()
@@ -65,13 +67,15 @@ public class EnemyController : MonoBehaviour
 
         // move char to patrol point
         if (currentPatrolPoint != null) { MoveCharToCurrentPatrolPoint(currentPatrolPoint.transform.position); }
-        
+
         // check if player is detected
         isPlayerDetected = PlayerIsDetected(playerController);
-        if (isPlayerDetected == true) 
-        { 
-            currentState = MovementState.chasing; 
+
+        if (isPlayerDetected == true)
+        {
+            currentState = MovementState.chasing;
         }
+        
     }
 
     private void ManageChaseState()
@@ -97,16 +101,12 @@ public class EnemyController : MonoBehaviour
     public bool PlayerIsDetected(PlayerController playerController)
     {
         float distFromPlayer;
-        if (gameManager.currentMode != GameManager.Modes.first_person)
+        distFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
+        if (distFromPlayer <= chaseDist)
         {
-            distFromPlayer = Vector3.Distance(transform.position, playerController.transform.position);
-
-            if (distFromPlayer <= chaseDist)
-            {
-                return true; // player detected
-            }
+            return true; // player detected
         }
-
+        
         return false;
     }
 

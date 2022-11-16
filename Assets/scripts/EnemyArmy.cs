@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class EnemyArmy : ArmyManager
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private PlayerArmy playerArmy;
+    [SerializeField] private int rewardAmount;
 
-    // Update is called once per frame
     void Update()
     {
         EnsureCorrectTroopNumbers();
+    }
+
+    public override void DestroyArmy()
+    {
+        base.DestroyArmy();
+        playerArmy.credits += rewardAmount; // would be nice to have a fancy calc here that took troop num and type into account 
+        Destroy(gameObject);
     }
 }
