@@ -7,16 +7,17 @@ public class EnemyArmy : ArmyManager
     [SerializeField] private PlayerArmy playerArmy;
     
     public int rewardAmount;
-    public int enemyStrength;
+    public float enemyStrength;
 
     private void Start()
     {
-        enemyStrength = punks * 2 + mercs * 4 + hackers * 4 + cyborgs * 8;
+        //enemyStrength = (punks * 2 + mercs * 4 + hackers * 4 + cyborgs * 8) * totalTroops;
     }
 
     void Update()
     {
         EnsureCorrectTroopNumbers();
+        enemyStrength = (punks * 2 + mercs * 4 + hackers * 4 + cyborgs * 8) + (totalTroops / 4);
     }
 
     public override void DestroyArmy()

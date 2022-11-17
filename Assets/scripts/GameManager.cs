@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public PlayerArmy playerArmy;
     public EnemyArmy enemyArmy;
 
-    public int playerStrength;
+    public float playerStrength;
 
     public float bounds;
     
@@ -59,9 +59,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] patrolPoints;
 
+    public GameObject cyberlord;
+
     private void Awake()
     {
         playerObjs[1].SetActive(false);
+
+        SlowMoActive(false);
     }
 
     private void Start()
@@ -72,7 +76,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        playerStrength = playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8;
+        if (cyberlord == null)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("win");
+        }
+
+        playerArmy.EnsureCorrectTroopNumbers();
+        playerStrength = (playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8) + (playerArmy.totalTroops / 4);
 
         // Handle In-Game Menu
         if (Input.GetKeyDown(KeyCode.P))
@@ -259,8 +270,10 @@ public class GameManager : MonoBehaviour
 
         // Perform calc to determine losses
         // calc player advantages
-        int playerTotalStrength = playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8;
-        int enemyTotalStrength = enemyArmy.punks * 2 + enemyArmy.mercs * 4 + enemyArmy.hackers * 4 + enemyArmy.cyborgs * 8;
+        int playerTotalStrength = (playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8) * playerArmy.totalTroops;
+        int enemyTotalStrength = (enemyArmy.punks * 2 + enemyArmy.mercs * 4 + enemyArmy.hackers * 4 + enemyArmy.cyborgs * 8) * enemyArmy.totalTroops;
+        
+
         if (playerTotalStrength > enemyTotalStrength){ playerHasStrengthAdvantage = true; }
         if (playerArmy.totalTroops > enemyArmy.totalTroops) { playerHasNumbersAdvantage = true; }
 

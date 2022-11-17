@@ -22,9 +22,6 @@ public class DialogueManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        Debug.Log(other.tag);
-
         // Reveal dialogue and handle purchasing units
         if (other.tag == "punk_vendor" | other.tag == "hacker_vendor" | other.tag == "merc_vendor" | other.tag == "cyborg_vendor")
         {

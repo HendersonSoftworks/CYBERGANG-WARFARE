@@ -20,12 +20,12 @@ public class ArmyManager : MonoBehaviour
     /// </summary>
     public void EnsureCorrectTroopNumbers()
     {
-        totalTroops = (punks + mercs + hackers + cyborgs);
-
         if (punks <= 0) { punks = 0; }
         if (mercs <= 0) { mercs = 0; }
         if (hackers <= 0) { hackers = 0; }
         if (cyborgs <= 0) { cyborgs = 0; }
+
+        totalTroops = (punks + mercs + hackers + cyborgs);
     }
 
     /// <summary>
