@@ -6,7 +6,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject battlePanel;
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject hudPanel;
+    [SerializeField] private GameObject enemyOverlayPanel;
+
     [SerializeField] private Text victoryText;
+    [SerializeField] private Text enemyOverlayText;
 
     [SerializeField] private Text playerPunkCount;
     [SerializeField] private Text playerMercCount;
@@ -97,7 +100,15 @@ public class GameManager : MonoBehaviour
             Debug.Log(hit.collider.tag);
             if (hit.collider.tag == "enemy")
             {
-                // show enemy info in bottom right?
+                Time.timeScale = 0;
+                enemyOverlayPanel.SetActive(true);
+                enemyOverlayText.text = "test!";
+                enemyOverlayPanel.transform.position = Input.mousePosition;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                enemyOverlayPanel.SetActive(false);
             }
         }
     }
