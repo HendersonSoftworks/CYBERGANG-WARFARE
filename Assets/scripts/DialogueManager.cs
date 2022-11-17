@@ -8,8 +8,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject dialoguePanel;
     public Text purchaseText;
 
-    [SerializeField] Collider currentCol; 
- 
+    [SerializeField] Collider currentCol;
+
+    [SerializeField] private AudioSource clickSound;
+
     private void Update()
     {
         if (dialoguePanel.activeSelf)
@@ -68,7 +70,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log(collider.tag);
+            clickSound.PlayOneShot(clickSound.clip);
 
             switch (collider.tag)
             {

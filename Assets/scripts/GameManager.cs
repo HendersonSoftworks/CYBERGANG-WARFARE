@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject victoryPanel;
     [SerializeField] private GameObject hudPanel;
     [SerializeField] private GameObject enemyOverlayPanel;
+    [SerializeField] private GameObject pausePanel;
 
     [SerializeField] private Text victoryText;
     [SerializeField] private Text enemyOverlayText;
@@ -31,8 +33,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
     [SerializeField] private bool playerHasNumbersAdvantage = false; // determines whether player has numbers advantage
 
-    [SerializeField] AudioSource soundManager;
-    [SerializeField] AudioSource musicManager;
+    [SerializeField] AudioSource playerSoundManager;
+    [SerializeField] public AudioSource musicManager;
+    [SerializeField] AudioSource soundFXManager;
+    [SerializeField] AudioClip clickClip;
+    [SerializeField] public AudioClip safeClip;
+    [SerializeField] public AudioClip battleClip;
+    [SerializeField] AudioClip victoryClip;
+    [SerializeField] AudioClip defeatClip;
 
     public PlayerArmy playerArmy;
     public EnemyArmy enemyArmy;
@@ -66,6 +74,12 @@ public class GameManager : MonoBehaviour
     {
         playerStrength = playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8;
 
+        // Handle In-Game Menu
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            togglePauseMenu();
+        }
+
         // Slow mo effecr
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -81,14 +95,27 @@ public class GameManager : MonoBehaviour
 
         if (isBattling)
         {
+            musicManager.clip = battleClip;
+            if (!musicManager.isPlaying)
+            {
+                musicManager.Play();
+            }
+
             battlePanel.SetActive(true);
             hudPanel.SetActive(false);
+            enemyOverlayPanel.SetActive(false);
 
             SlowMoActive(false);
             Time.timeScale = 0;
         }
         else
         {
+            musicManager.clip = safeClip;
+            if (!musicManager.isPlaying)
+            {
+                musicManager.Play();
+            }
+
             battlePanel.SetActive(false);
             hudPanel.SetActive(true);
 
@@ -123,13 +150,13 @@ public class GameManager : MonoBehaviour
         if (active)
         {
             Time.timeScale = 0.10f;
-            soundManager.pitch = 0.2f;
+            playerSoundManager.pitch = 0.2f;
             musicManager.pitch = 0.35f;
         }
         else
         {
             Time.timeScale = 1;
-            soundManager.pitch = 0.8f;
+            playerSoundManager.pitch = 0.8f;
             musicManager.pitch = 1;
         }
     }
@@ -164,7 +191,10 @@ public class GameManager : MonoBehaviour
             playerObjs[0].SetActive(true);
             playerObjs[1].SetActive(false);
 
-            Cursor.lockState = CursorLockMode.Locked;
+            if (!pausePanel.activeInHierarchy)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
         else
         {
@@ -216,8 +246,6 @@ public class GameManager : MonoBehaviour
 
     public void CalcNextBattleStep()
     {
-        Debug.Log("CalcNextBattleStep");
-
         /* How should calculation work?
          * 
          * punks == 2 strength
@@ -242,7 +270,7 @@ public class GameManager : MonoBehaviour
         // Check if one party was victorious
         if (playerArmy.totalTroops <= 0)
         {
-            EndBattle();
+            EndBattle(false);
             ResetPlayerPositions();
             victoryText.text = "A pathetic display!";
             victoryPanel.SetActive(true);
@@ -256,7 +284,7 @@ public class GameManager : MonoBehaviour
         }
         else if (enemyArmy.totalTroops <= 0)
         {
-            EndBattle();
+            EndBattle(true);
             enemyArmy.DestroyArmy();
             victoryText.text = "You are Victorious!!";
             victoryPanel.SetActive(true);
@@ -266,12 +294,23 @@ public class GameManager : MonoBehaviour
         playerArmy.EnsureCorrectTroopNumbers();
         enemyArmy.EnsureCorrectTroopNumbers();
         SetBattleUIStats();
+
+        soundFXManager.PlayOneShot(clickClip);
     }
 
-    public void EndBattle()
+    public void EndBattle(bool victory)
     {
-        Debug.Log("Battle over");
         isBattling = false;
+
+        if (victory)
+        {
+            SlowMoActive(true);
+            soundFXManager.PlayOneShot(victoryClip);
+        }
+        else
+        {
+            soundFXManager.PlayOneShot(defeatClip);
+        }
     }
 
     public int GenerateRandomTroopLoss(int max)
@@ -342,5 +381,29 @@ public class GameManager : MonoBehaviour
     {
         playerObjs[0].transform.position = new Vector3(0, 0, 23.5f);
         playerObjs[1].transform.position = new Vector3(0, 0, 40);
+    }
+
+    public void LoadMainMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("title");
+    }
+
+    public void togglePauseMenu()
+    {
+        if (pausePanel.activeInHierarchy)
+        {
+            pausePanel.SetActive(false);
+            SlowMoActive(false);
+            Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            pausePanel.SetActive(true);
+            SlowMoActive(true);
+            Time.timeScale = 0;
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 }

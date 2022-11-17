@@ -4,6 +4,7 @@ using UnityEngine.AI;
 public class PlayerArmy : ArmyManager
 {
     [SerializeField] GameManager gameManager;
+    [SerializeField] AudioSource musicManager;
 
     // Update is called once per frame
     void Update()
@@ -38,7 +39,5 @@ public class PlayerArmy : ArmyManager
 
         // Logic to open up Battle UI and simulate battle
         gameManager.isBattling = true;
-
-        //base.EnterBattleMode(enemyObject);
     }
 }
