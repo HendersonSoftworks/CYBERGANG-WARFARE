@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text MercHud;
     [SerializeField] private Text HackerHud;
     [SerializeField] private Text CyborgHud;
+    [SerializeField] private Text strengthHud;
     [SerializeField] private Text creditsHud;
 
     [SerializeField] private bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
@@ -35,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     public PlayerArmy playerArmy;
     public EnemyArmy enemyArmy;
+
+    public int playerStrength;
 
     public float bounds;
     
@@ -61,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        playerStrength = playerArmy.punks * 2 + playerArmy.mercs * 4 + playerArmy.hackers * 4 + playerArmy.cyborgs * 8;
+
         // Slow mo effecr
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -80,6 +85,7 @@ public class GameManager : MonoBehaviour
             hudPanel.SetActive(false);
 
             SlowMoActive(false);
+            Time.timeScale = 0;
         }
         else
         {
@@ -108,6 +114,7 @@ public class GameManager : MonoBehaviour
         MercHud.text = "mercs x " + playerArmy.mercs.ToString();
         HackerHud.text = "hackers x " + playerArmy.hackers.ToString();
         CyborgHud.text = "cyborgs x " + playerArmy.cyborgs.ToString();
+        strengthHud.text = "strength: " + playerStrength.ToString();
         creditsHud.text = "Credits: " + playerArmy.credits.ToString();
     }
 
