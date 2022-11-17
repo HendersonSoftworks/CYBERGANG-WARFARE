@@ -5,7 +5,14 @@ using UnityEngine;
 public class EnemyArmy : ArmyManager
 {
     [SerializeField] private PlayerArmy playerArmy;
-    [SerializeField] private int rewardAmount;
+    
+    public int rewardAmount;
+    public int enemyStrength;
+
+    private void Start()
+    {
+        enemyStrength = punks * 2 + mercs * 4 + hackers * 4 + cyborgs * 8;
+    }
 
     void Update()
     {

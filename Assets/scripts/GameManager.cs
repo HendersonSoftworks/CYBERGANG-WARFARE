@@ -30,6 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool playerHasStrengthAdvantage = false; // determines whether player has strength advantage
     [SerializeField] private bool playerHasNumbersAdvantage = false; // determines whether player has numbers advantage
 
+    [SerializeField] AudioSource soundManager;
+    [SerializeField] AudioSource musicManager;
+
     public PlayerArmy playerArmy;
     public EnemyArmy enemyArmy;
 
@@ -58,17 +61,35 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // Slow mo effecr
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Time.timeScale == 1)
+            {
+                SlowMoActive(true);
+            }
+            else
+            {
+                SlowMoActive(false);
+            }
+        }
+
         if (isBattling)
         {
             battlePanel.SetActive(true);
             hudPanel.SetActive(false);
+
+            SlowMoActive(false);
         }
         else
         {
             battlePanel.SetActive(false);
             hudPanel.SetActive(true);
 
-            ManageEnemyOverlay();
+            if (currentMode == Modes.third_person)
+            {
+                ManageEnemyOverlay();
+            }
         }
 
         if (victoryPanel.activeSelf)
@@ -90,6 +111,22 @@ public class GameManager : MonoBehaviour
         creditsHud.text = "Credits: " + playerArmy.credits.ToString();
     }
 
+    private void SlowMoActive(bool active)
+    {
+        if (active)
+        {
+            Time.timeScale = 0.10f;
+            soundManager.pitch = 0.2f;
+            musicManager.pitch = 0.35f;
+        }
+        else
+        {
+            Time.timeScale = 1;
+            soundManager.pitch = 0.8f;
+            musicManager.pitch = 1;
+        }
+    }
+
     private void ManageEnemyOverlay()
     {
         // Get ray from mouse pos
@@ -100,14 +137,14 @@ public class GameManager : MonoBehaviour
             Debug.Log(hit.collider.tag);
             if (hit.collider.tag == "enemy")
             {
-                Time.timeScale = 0;
                 enemyOverlayPanel.SetActive(true);
-                enemyOverlayText.text = "test!";
+                string text = "Name: " + hit.collider.name + "\nStrength: " + hit.collider.GetComponent<EnemyArmy>().enemyStrength + "\nBounty: " + hit.collider.GetComponent<EnemyArmy>().rewardAmount;
+                enemyOverlayText.text = text;
+
                 enemyOverlayPanel.transform.position = Input.mousePosition;
             }
             else
             {
-                Time.timeScale = 1;
                 enemyOverlayPanel.SetActive(false);
             }
         }
